@@ -33,6 +33,7 @@ class GanHuaDict:
             return False
 
         json_data = json.load(file)
+        self.__gan_hua_list.clear()
         for record in json_data:
             tokens = self.__tokenize(record["message"])
             self.__gan_hua_list.append(GanHua(record["id"], record["spokesman"], record["position"], record["message"], tokens))
@@ -60,4 +61,10 @@ class GanHuaDict:
             index = random.randint(0, len(self.__gan_hua_list) - 1)
             return self.__gan_hua_list[index]
         return None
+
+    def get_dict_len(self):
+        return len(self.__gan_hua_list)
+
+    def get_dict(self):
+        return self.__gan_hua_list.copy()
 

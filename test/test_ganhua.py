@@ -8,11 +8,16 @@ class TestGanHua():
         ret = dict.load_from_file("")
         assert ret == False
 
-        ret = dict.load_from_file("ganhua_dict.json")
-        assert ret == True
-
         ret = dict.load_from_file("not_exist.json")
         assert ret == False
+
+        ret = dict.load_from_file("ganhua_dict.json")
+        assert ret == True
+        assert dict.get_dict_len() == 54
+
+        # Load will reset list to empty.
+        ret = dict.load_from_file("ganhua_dict.json")
+        assert dict.get_dict_len() == 54
 
     def test_ganhua_randompick(self):
         dict = GanHuaDict()
