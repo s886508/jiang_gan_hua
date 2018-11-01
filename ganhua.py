@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-import jieba
 import random
-
-jieba.set_dictionary("dict.txt.big")
+from . import segment
 
 class GanHua:
 
@@ -35,22 +33,10 @@ class GanHuaDict:
         json_data = json.load(file)
         self.__gan_hua_list.clear()
         for record in json_data:
-            tokens = self.__tokenize(record["message"])
+            tokens = segment.tokenize(record["message"])
             self.__gan_hua_list.append(GanHua(record["id"], record["spokesman"], record["position"], record["message"], tokens))
 
         return True
-
-
-    def __tokenize(self, message):
-        """
-        Use Jieba to tokenize given message.
-        :param message(str): String to tokenize.
-        :return: Return list of tokens.
-        """
-        tokens = []
-        for t in jieba.cut(message, cut_all=False):
-            tokens.append(t)
-        return tokens
 
     def random_pick(self):
         """

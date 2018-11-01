@@ -15,7 +15,7 @@ class TestGanHuaExpert:
         assert len(similars) == 0
 
         # Load dictionary and query.
-        dict.load_from_file("ganhua_dict.json")
+        dict.load_from_file("data/ganhua_dict.json")
         similars = analyzer.query_similiar_from_dict(text, 1, dict)
         assert len(similars) == 1
 

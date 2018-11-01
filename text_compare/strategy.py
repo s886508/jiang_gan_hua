@@ -1,14 +1,6 @@
 # -*- coding=utf-8 -*-
 import abc
-import jieba
-jieba.set_dictionary("dict.txt.big")
-
-def _tokenize(text):
-    tokens = []
-    for t in jieba.cut(text, cut_all=False):
-        tokens.append(t)
-
-    return tokens
+from .. import segment
 
 class CompareStrategyAbstract(object):
     __metaclass__ = abc.ABCMeta
@@ -45,9 +37,9 @@ class JaccardCompareStrategy(CompareStrategyAbstract):
         tokens1 = self._find_last_used_tokens(t1)
         tokens2 = self._find_last_used_tokens(t2)
         if tokens1 is None:
-            tokens1 = _tokenize(t1)
+            tokens1 = segment.tokenize(t1)
         if tokens2 is None:
-            tokens2 = _tokenize(t2)
+            tokens2 = segment.tokenize(t2)
 
         return self.compare_tokens(tokens1, tokens2)
 
