@@ -45,10 +45,7 @@ class JaccardCompareStrategy(CompareStrategyAbstract):
         return self.compare_tokens(tokens1, tokens2)
 
     def compare_tokens(self, tokens1, tokens2):
-        set1 = set(tokens1)
-        set2 = set(tokens2)
-
-        return len(set1.intersection(set2)) / len(set1.union(set2))
+        return distance.jaccard(tokens1, tokens2)
 
 class LevenshteiinCompareStrategy(CompareStrategyAbstract):
     def compare(self, t1, t2):

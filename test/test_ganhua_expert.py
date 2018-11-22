@@ -42,11 +42,11 @@ class TestGanHuaExpert:
         assert score == len(text_exmine)
 
         analyzer = GanHuaExpert(JaccardCompareStrategy())
-        score = analyzer.cal_similiarity(text_src, text_exmine)
-        assert score == 0.1
+        diff_score = analyzer.cal_similiarity(text_src, text_exmine)
+        assert diff_score > 0.8
 
-        score = analyzer.cal_similiarity(text_src, "")
-        assert score == 0.0
+        diff_score = analyzer.cal_similiarity(text_src, "")
+        assert diff_score == 1.0
 
-        score = analyzer.cal_similiarity("", text_exmine)
-        assert score == 0.0
+        diff_score = analyzer.cal_similiarity("", text_exmine)
+        assert diff_score == 1.0
