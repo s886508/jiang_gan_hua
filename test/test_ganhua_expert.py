@@ -1,7 +1,7 @@
 # -*- coding=utf-8 -*-
 from ..ganhua import GanHuaDict
 from ..ganhua_expert import GanHuaExpert
-from ..text_compare.strategy import JaccardCompareStrategy
+from ..text_compare.strategy import JaccardCompareStrategy, LevenshteiinCompareStrategy
 
 class TestGanHuaExpert:
 
@@ -31,12 +31,22 @@ class TestGanHuaExpert:
         text_exmine = "假新聞要關三天"
 
 
-        analyzer = GanHuaExpert(JaccardCompareStrategy())
+        analyzer = GanHuaExpert(LevenshteiinCompareStrategy())
         score = analyzer.cal_similiarity(text_src, text_exmine)
         assert score > 0
 
         score = analyzer.cal_similiarity(text_src, "")
-        assert score == 0
+        assert score == len(text_src)
 
         score = analyzer.cal_similiarity("", text_exmine)
-        assert score == 0
+        assert score == len(text_exmine)
+
+        analyzer = GanHuaExpert(JaccardCompareStrategy())
+        score = analyzer.cal_similiarity(text_src, text_exmine)
+        assert score == 0.1
+
+        score = analyzer.cal_similiarity(text_src, "")
+        assert score == 0.0
+
+        score = analyzer.cal_similiarity("", text_exmine)
+        assert score == 0.0

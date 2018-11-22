@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 import abc
+import distance
 from .. import segment
 
 class CompareStrategyAbstract(object):
@@ -49,3 +50,9 @@ class JaccardCompareStrategy(CompareStrategyAbstract):
 
         return len(set1.intersection(set2)) / len(set1.union(set2))
 
+class LevenshteiinCompareStrategy(CompareStrategyAbstract):
+    def compare(self, t1, t2):
+        return distance.levenshtein(t1, t2)
+
+    def compare_tokens(self, tokens1, tokens2):
+        pass
