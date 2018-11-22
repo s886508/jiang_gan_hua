@@ -9,7 +9,7 @@ class TestGanHuaExpert:
         dict = GanHuaDict()
 
         # Dictionary has not loaded.
-        text = "薪水高低很重要"
+        text = "反對這個法案的人，將來選舉可以不要支持民進黨"
         analyzer = GanHuaExpert(JaccardCompareStrategy(), dict)
         similars = analyzer.query_similiar_from_dict(text, 1)
         assert len(similars) == 0

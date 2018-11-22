@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from .ganhua import GanHuaDict
-from .text_compare.strategy import CompareStrategyAbstract, JaccardCompareStrategy
+from .text_compare.strategy import JaccardCompareStrategy, LevenshteiinCompareStrategy
 
 class GanHuaExpert:
 
@@ -12,6 +12,17 @@ class GanHuaExpert:
         self.__comp_stategy = comp_strategy
         self.__dict = dict
 
+    def __sort_by_score(self, similar_scores):
+        """
+        Sort similar sentences by score.
+        :param similar_scores: Similarity scores between two sentences.
+        """
+        if type(self.__comp_stategy) is JaccardCompareStrategy:
+            return sorted(similar_scores.items(), key=lambda x: x[1])
+        if type(self.__comp_stategy) is LevenshteiinCompareStrategy:
+            return sorted(similar_scores.items(), key=lambda x: x[1])
+        return similar_scores
+
     def query_similiar_from_dict(self, text, num):
         """
         Calculate text similarity from given text and dictionary.
@@ -19,14 +30,16 @@ class GanHuaExpert:
         :param num(int): Top most num similar text calculated.
         :return: List of top most num text.
         """
-        ret = []
+        scores_dict = {}
         if num <= 0:
-            return ret
+            return scores_dict
 
         for g in self.__dict.get_dict():
-            score = self.cal_similiarity(text, g.message)
-            ret.append(g.message)
-        return ret[0 : num]
+            scores_dict[g.message] = self.cal_similiarity(text, g.message)
+
+        scores_dict = self.__sort_by_score(scores_dict)
+        return list(scores_dict)[0 : num]
+
 
     def cal_similiarity(self, t1, t2):
         """
